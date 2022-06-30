@@ -81,8 +81,8 @@ public class BlockedPotionsListener extends AbstractListener {
                         if (getPlugin().hasPermission(player, "worldguard.override.potions")) {
                             return;
                         }
-                        player.sendMessage(ChatColor.RED + "Sorry, arrows with "
-                                + blockedEffect.getName() + " are presently disabled.");
+                        player.sendMessage(ChatColor.RED + "К сожалению, стрелы с "
+                                + blockedEffect.getName() + " в настоящее время отключены.");
                     }
                     event.setCancelled(true);
                 }
@@ -133,15 +133,15 @@ public class BlockedPotionsListener extends AbstractListener {
                     if (getPlugin().hasPermission(player, "worldguard.override.potions")) {
                         if (wcfg.blockPotionsAlways && (item.getType() == Material.SPLASH_POTION
                                 || item.getType() == Material.LINGERING_POTION)) {
-                            player.sendMessage(ChatColor.RED + "Sorry, potions with " +
-                                    blockedEffect.getName() + " can't be thrown, " +
-                                    "even if you have a permission to bypass it, " +
-                                    "due to limitations (and because overly-reliable potion blocking is on).");
+                            player.sendMessage(ChatColor.RED + "К сожалению, стрелы с " +
+                                    blockedEffect.getName() + " нельзя бросить, " +
+                                    "даже если у Вас есть разрешение обойти это, " +
+                                    "из-за ограничений (и из-за чрезмерно надежной блокировки зелья).");
                             event.setCancelled(true);
                         }
                     } else {
-                        player.sendMessage(ChatColor.RED + "Sorry, potions with "
-                                + blockedEffect.getName() + " are presently disabled.");
+                        player.sendMessage(ChatColor.RED + "К сожалению, стрелы с "
+                                + blockedEffect.getName() + " в настоящее время отключены..");
                         event.setCancelled(true);
                     }
                 } else {

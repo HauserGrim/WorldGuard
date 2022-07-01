@@ -219,7 +219,7 @@ public final class Flags {
     public static final StringFlag DENY_MESSAGE = register(new StringFlag("deny-message",
             LegacyComponentSerializer.INSTANCE.serialize(TextComponent.of("").append(TextComponent.of("§8[§4!§8]",
                     TextColor.RED, Sets.newHashSet(TextDecoration.BOLD)))
-                    .append(TextComponent.of(" Вы не можете %what% в этом месте.", TextColor.GRAY)))));
+                    .append(TextComponent.of(" Вы не можете %what% здесь.", TextColor.GRAY)))));
     /**
      * @deprecated The type of this flag will change from a StringFlag to a ComponentFlag to support JSON text
      *              in a future release. If you depend on the type of this flag, take proper precaution for future breakage.

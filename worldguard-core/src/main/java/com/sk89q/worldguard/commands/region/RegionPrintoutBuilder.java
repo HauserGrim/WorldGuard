@@ -334,7 +334,9 @@ public class RegionPrintoutBuilder implements Callable<TextComponent> {
                     .clickEvent(ClickEvent.of(ClickEvent.Action.RUN_COMMAND,
                             "/rg tp -c -w \"" + world + "\" " + region.getId()))));
         }
-
+        // newline();
+        // builder.append(TextComponent.of("Не добавляйте в регион малознакомых игроков.", TextColor.RED));
+        
         newline();
     }
 
@@ -363,7 +365,7 @@ public class RegionPrintoutBuilder implements Callable<TextComponent> {
 
     @Override
     public TextComponent call() {
-        MessageBox box = new MessageBox("Информация о регионе", builder);
+        MessageBox box = new MessageBox("§eИнформация о регионе", builder, TextColor.GRAY);
         appendRegionInformation();
         return box.create();
     }

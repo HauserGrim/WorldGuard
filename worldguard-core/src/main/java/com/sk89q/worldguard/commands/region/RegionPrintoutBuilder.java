@@ -319,7 +319,7 @@ public class RegionPrintoutBuilder implements Callable<TextComponent> {
         builder.append(bound);
         final Location teleFlag = FlagValueCalculator.getEffectiveFlagOf(region, Flags.TELE_LOC, perms != null && perms.getSender() instanceof RegionAssociable ? (RegionAssociable) perms.getSender() : null);
         if (teleFlag != null && perms != null && perms.mayTeleportTo(region)) {
-            builder.append(TextComponent.space().append(TextComponent.of("[Телепортация]", TextColor.GRAY)
+            builder.append(TextComponent.space().append(TextComponent.of("[ТП]", TextColor.GRAY)
                     .hoverEvent(HoverEvent.of(HoverEvent.Action.SHOW_TEXT,
                             TextComponent.of("Нажмите для телепортации").append(TextComponent.newline()).append(
                                     TextComponent.of(teleFlag.getBlockX() + ", "
@@ -328,7 +328,7 @@ public class RegionPrintoutBuilder implements Callable<TextComponent> {
                     .clickEvent(ClickEvent.of(ClickEvent.Action.RUN_COMMAND,
                             "/rg tp -w \"" + world + "\" " + region.getId()))));
         } else if (perms != null && perms.mayTeleportToCenter(region) && region.isPhysicalArea()) {
-            builder.append(TextComponent.space().append(TextComponent.of("[Телепортироваться в центр]", TextColor.GRAY)
+            builder.append(TextComponent.space().append(TextComponent.of("[ТП в центр]", TextColor.GRAY)
                     .hoverEvent(HoverEvent.of(HoverEvent.Action.SHOW_TEXT,
                             TextComponent.of("Нажмите для телепортации в центр региона")))
                     .clickEvent(ClickEvent.of(ClickEvent.Action.RUN_COMMAND,

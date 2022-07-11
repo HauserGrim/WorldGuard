@@ -312,7 +312,7 @@ public final class RegionCommands extends RegionCommandsBase {
             }
 
             if (region.volume() > wcfg.maxClaimVolume) {
-                player.printError("Вы не можете заприватить регион такого размера.");
+                player.printError("Вы не можете создать регион такого размера.");
                 player.printError("Максимальный размер: " + wcfg.maxClaimVolume + ", Ваш размер: " + region.volume());
                 return;
             }

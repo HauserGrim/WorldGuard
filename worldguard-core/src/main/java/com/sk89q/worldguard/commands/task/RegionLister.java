@@ -281,7 +281,7 @@ public class RegionLister implements Callable<Integer> {
             }
             builder.append(TextComponent.space()).append(TextComponent.of(entry.getRegion().getId(), TextColor.GOLD));
             if (perms != null && perms.mayLookup(entry.region)) {
-                builder.append(TextComponent.space().append(TextComponent.of("[Информация]", TextColor.GRAY)
+                builder.append(TextComponent.space().append(TextComponent.of("[Инфо]", TextColor.GRAY)
                         .hoverEvent(HoverEvent.of(HoverEvent.Action.SHOW_TEXT, TextComponent.of("Нажмите для информации")))
                         .clickEvent(ClickEvent.of(ClickEvent.Action.RUN_COMMAND,
                                 "/rg info -w \"" + world + "\" " + entry.region.getId()))));
@@ -289,13 +289,13 @@ public class RegionLister implements Callable<Integer> {
             final Location teleFlag = FlagValueCalculator.getEffectiveFlagOf(entry.region, Flags.TELE_LOC, perms != null && perms.getSender() instanceof RegionAssociable ? (RegionAssociable) perms.getSender() : null);
             if (perms != null && teleFlag != null && perms.mayTeleportTo(entry.region)) {
                 builder.append(TextComponent.space().append(TextComponent.of("[ТП]", TextColor.GRAY)
-                        .hoverEvent(HoverEvent.of(HoverEvent.Action.SHOW_TEXT, TextComponent.of("Нажмите, чтобы телепортироваться")))
+                        .hoverEvent(HoverEvent.of(HoverEvent.Action.SHOW_TEXT, TextComponent.of("Нажмите для телепортации")))
                         .clickEvent(ClickEvent.of(ClickEvent.Action.RUN_COMMAND,
                                 "/rg tp -w \"" + world + "\" " + entry.region.getId()))));
             } else if (perms != null && perms.mayTeleportToCenter(entry.getRegion()) && entry.getRegion().isPhysicalArea()) {
-                builder.append(TextComponent.space().append(TextComponent.of("[TP-Center]", TextColor.GRAY)
+                builder.append(TextComponent.space().append(TextComponent.of("[ТП в центр]", TextColor.GRAY)
                         .hoverEvent(HoverEvent.of(HoverEvent.Action.SHOW_TEXT,
-                                TextComponent.of("Click to teleport to the center")))
+                                TextComponent.of("Нажмите для телепортации в центр")))
                         .clickEvent(ClickEvent.of(ClickEvent.Action.RUN_COMMAND,
                                 "/rg tp -c -w \"" + world + "\" " + entry.region.getId()))));
             }

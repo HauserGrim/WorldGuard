@@ -40,12 +40,12 @@ public final class BlockDispenseBlacklistEvent extends BlockBlacklistEvent {
 
     @Override
     public String getDescription() {
-        return "dispense";
+        return "выдать";
     }
 
     @Override
     public String getLoggerMessage() {
-        return getPosition() + " tried to " + getDescription() + " " + getTarget().getFriendlyName();
+        return getPosition() + " попытался " + getDescription() + " " + getTarget().getFriendlyName();
     }
 
     @Override

@@ -19,12 +19,8 @@
 
 package com.sk89q.worldguard.util.profile.resolver;
 
-import com.destroystokyo.paper.profile.PlayerProfile;
-import com.google.common.base.Charsets;
 import com.sk89q.worldguard.util.profile.Profile;
 import io.papermc.lib.PaperLib;
-import org.bukkit.Bukkit;
-import org.bukkit.OfflinePlayer;
 
 import javax.annotation.Nullable;
 import java.io.IOException;
@@ -37,7 +33,6 @@ import java.util.UUID;
 public final class PaperProfileService extends SingleRequestService {
     private static final PaperPlayerService SUPER = PaperPlayerService.getInstance();
     private static final PaperProfileService INSTANCE = new PaperProfileService();
-    private static final boolean onlineMode = Bukkit.getServer().getOnlineMode();
 
     private PaperProfileService() {
         if (!PaperLib.isPaper()) {
@@ -53,17 +48,7 @@ public final class PaperProfileService extends SingleRequestService {
     @Override
     @Nullable
     public Profile findByName(String name) throws IOException, InterruptedException {
-        if (onlineMode) {
-            return SUPER.findByName(name);
-        }
-        else {
-            OfflinePlayer offlinePlayer = Bukkit.getServer().getOfflinePlayerIfCached(name);
-            return offlinePlayer != null ? new Profile(offlinePlayer.getUniqueId(), offlinePlayer.getName()) : new Profile(generateOfflineUUID(name), name);
-        }
-    }
-
-    private UUID generateOfflineUUID(String name) {
-        return UUID.nameUUIDFromBytes(("OfflinePlayer:" + name).getBytes(Charsets.UTF_8));
+        return SUPER.findByName(name);
     }
 
     @Nullable

@@ -29,7 +29,6 @@ import com.sk89q.worldguard.domains.DefaultDomain;
 import javax.annotation.Nullable;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.Callable;
@@ -110,11 +109,11 @@ public class DomainInputResolver implements Callable<DefaultDomain> {
                             domain.addPlayer(s);
                             break;
                         case UUID_ONLY:
-                            namesToQuery.add(s);
+                            namesToQuery.add(s.toLowerCase());
                             break;
                         case UUID_AND_NAME:
                             domain.addPlayer(s);
-                            namesToQuery.add(s);
+                            namesToQuery.add(s.toLowerCase());
                     }
                 }
             }
@@ -122,11 +121,8 @@ public class DomainInputResolver implements Callable<DefaultDomain> {
 
         if (!namesToQuery.isEmpty()) {
             try {
-                Iterator<String> iterator = namesToQuery.iterator();
-                while (iterator.hasNext()) {
-                    String name = iterator.next();
-                    Profile profile = profileService.findByName(name);
-                    iterator.remove();
+                for (Profile profile : profileService.findAllByName(namesToQuery)) {
+                    namesToQuery.remove(profile.getName().toLowerCase());
                     domain.addPlayer(profile.getUniqueId());
                 }
             } catch (IOException e) {

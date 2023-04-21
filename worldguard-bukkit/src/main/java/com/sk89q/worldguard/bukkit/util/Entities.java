@@ -112,7 +112,7 @@ public final class Entities {
      */
     public static boolean isBoat(EntityType type) {
         return switch(type) {
-            case BOAT, CHEST_BOAT -> true;
+            case BOAT/*, CHEST_BOAT*/ -> true;
             default -> false;
         };
     }

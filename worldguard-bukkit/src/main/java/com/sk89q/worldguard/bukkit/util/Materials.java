@@ -800,7 +800,7 @@ public final class Materials {
         MATERIAL_FLAGS.put(Material.POINTED_DRIPSTONE, 0);
 
         // 1.19
-        MATERIAL_FLAGS.put(Material.MUD, 0);
+/*        MATERIAL_FLAGS.put(Material.MUD, 0);
         MATERIAL_FLAGS.put(Material.MANGROVE_ROOTS, 0);
         MATERIAL_FLAGS.put(Material.MUDDY_MANGROVE_ROOTS, 0);
         MATERIAL_FLAGS.put(Material.PACKED_MUD, 0);
@@ -818,10 +818,10 @@ public final class Materials {
         MATERIAL_FLAGS.put(Material.PEARLESCENT_FROGLIGHT, 0);
         MATERIAL_FLAGS.put(Material.FROGSPAWN, 0);
         MATERIAL_FLAGS.put(Material.ECHO_SHARD, 0);
-        MATERIAL_FLAGS.put(Material.REINFORCED_DEEPSLATE, 0);
+        MATERIAL_FLAGS.put(Material.REINFORCED_DEEPSLATE, 0);*/
 
         // 1.19.3: Try to register those things
-        try {
+/*        try {
             SIGNS_TAG = Tag.ALL_SIGNS;
 
             MATERIAL_FLAGS.put(Material.BAMBOO_MOSAIC, 0);
@@ -829,7 +829,8 @@ public final class Materials {
             MATERIAL_FLAGS.put(Material.STRIPPED_BAMBOO_BLOCK, 0);
         } catch (NoSuchFieldError ignored) {
             SIGNS_TAG = Tag.SIGNS;
-        }
+        }*/
+        SIGNS_TAG = Tag.SIGNS;
 
         // Generated via tag
         putMaterialTag(Tag.WOODEN_DOORS, MODIFIED_ON_RIGHT);
@@ -839,7 +840,7 @@ public final class Materials {
         putMaterialTag(Tag.BANNERS, 0);
         putMaterialTag(Tag.SLABS, 0);
         putMaterialTag(Tag.PLANKS, 0);
-        putMaterialTag(Tag.WOOL_CARPETS, 0);
+//        putMaterialTag(Tag.WOOL_CARPETS, 0);
         putMaterialTag(Tag.SAPLINGS, 0);
         putMaterialTag(Tag.LOGS, 0);
         putMaterialTag(Tag.LEAVES, 0);
@@ -925,7 +926,7 @@ public final class Materials {
 //        DAMAGE_EFFECTS.add(PotionEffectType.DOLPHINS_GRACE);
         DAMAGE_EFFECTS.add(PotionEffectType.BAD_OMEN);
 //        DAMAGE_EFFECTS.add(PotionEffectType.HERO_OF_THE_VILLAGE);
-        DAMAGE_EFFECTS.add(PotionEffectType.DARKNESS);
+//        DAMAGE_EFFECTS.add(PotionEffectType.DARKNESS);
     }
 
     private Materials() {
@@ -1113,7 +1114,7 @@ public final class Materials {
                 || material == Material.BARREL
                 || material == Material.BLAST_FURNACE
                 || material == Material.SMOKER
-                || Tag.ITEMS_CHEST_BOATS.isTagged(material)
+//                || Tag.ITEMS_CHEST_BOATS.isTagged(material)
                 || Tag.SHULKER_BOXES.isTagged(material);
     }
 
@@ -1123,14 +1124,14 @@ public final class Materials {
 
     public static EntityType getEntitySpawnEgg(Material material) {
         return switch (material) {
-            case ALLAY_SPAWN_EGG -> EntityType.ALLAY;
+//            case ALLAY_SPAWN_EGG -> EntityType.ALLAY;
             case AXOLOTL_SPAWN_EGG -> EntityType.AXOLOTL;
             case SPIDER_SPAWN_EGG -> EntityType.SPIDER;
             case BAT_SPAWN_EGG -> EntityType.BAT;
             case BEE_SPAWN_EGG -> EntityType.BEE;
             case BLAZE_SPAWN_EGG -> EntityType.BLAZE;
             case CAT_SPAWN_EGG -> EntityType.CAT;
-            case CAMEL_SPAWN_EGG -> EntityType.CAMEL;
+//            case CAMEL_SPAWN_EGG -> EntityType.CAMEL;
             case CAVE_SPIDER_SPAWN_EGG -> EntityType.CAVE_SPIDER;
             case CHICKEN_SPAWN_EGG -> EntityType.CHICKEN;
             case COD_SPAWN_EGG -> EntityType.COD;
@@ -1140,12 +1141,12 @@ public final class Materials {
             case DONKEY_SPAWN_EGG -> EntityType.DONKEY;
             case DROWNED_SPAWN_EGG -> EntityType.DROWNED;
             case ELDER_GUARDIAN_SPAWN_EGG -> EntityType.ELDER_GUARDIAN;
-            case ENDER_DRAGON_SPAWN_EGG -> EntityType.ENDER_DRAGON;
+//            case ENDER_DRAGON_SPAWN_EGG -> EntityType.ENDER_DRAGON;
             case ENDERMAN_SPAWN_EGG -> EntityType.ENDERMAN;
             case ENDERMITE_SPAWN_EGG -> EntityType.ENDERMITE;
             case EVOKER_SPAWN_EGG -> EntityType.EVOKER;
             case FOX_SPAWN_EGG -> EntityType.FOX;
-            case FROG_SPAWN_EGG -> EntityType.FROG;
+//            case FROG_SPAWN_EGG -> EntityType.FROG;
             case GHAST_SPAWN_EGG -> EntityType.GHAST;
             case GLOW_SQUID_SPAWN_EGG -> EntityType.GLOW_SQUID;
             case GOAT_SPAWN_EGG -> EntityType.GOAT;
@@ -1153,7 +1154,7 @@ public final class Materials {
             case HOGLIN_SPAWN_EGG -> EntityType.HOGLIN;
             case HORSE_SPAWN_EGG -> EntityType.HORSE;
             case HUSK_SPAWN_EGG -> EntityType.HUSK;
-            case IRON_GOLEM_SPAWN_EGG -> EntityType.IRON_GOLEM;
+//            case IRON_GOLEM_SPAWN_EGG -> EntityType.IRON_GOLEM;
             case LLAMA_SPAWN_EGG -> EntityType.LLAMA;
             case MAGMA_CUBE_SPAWN_EGG -> EntityType.MAGMA_CUBE;
             case MOOSHROOM_SPAWN_EGG -> EntityType.MUSHROOM_COW;
@@ -1176,11 +1177,11 @@ public final class Materials {
             case SKELETON_HORSE_SPAWN_EGG -> EntityType.SKELETON_HORSE;
             case SKELETON_SPAWN_EGG -> EntityType.SKELETON;
             case SLIME_SPAWN_EGG -> EntityType.SLIME;
-            case SNOW_GOLEM_SPAWN_EGG -> EntityType.SNOWMAN;
+//            case SNOW_GOLEM_SPAWN_EGG -> EntityType.SNOWMAN;
             case SQUID_SPAWN_EGG -> EntityType.SQUID;
             case STRAY_SPAWN_EGG -> EntityType.STRAY;
             case STRIDER_SPAWN_EGG -> EntityType.STRIDER;
-            case TADPOLE_SPAWN_EGG -> EntityType.TADPOLE;
+//            case TADPOLE_SPAWN_EGG -> EntityType.TADPOLE;
             case TRADER_LLAMA_SPAWN_EGG -> EntityType.TRADER_LLAMA;
             case TROPICAL_FISH_SPAWN_EGG -> EntityType.TROPICAL_FISH;
             case TURTLE_SPAWN_EGG -> EntityType.TURTLE;
@@ -1188,9 +1189,9 @@ public final class Materials {
             case VILLAGER_SPAWN_EGG -> EntityType.VILLAGER;
             case VINDICATOR_SPAWN_EGG -> EntityType.VINDICATOR;
             case WANDERING_TRADER_SPAWN_EGG -> EntityType.WANDERING_TRADER;
-            case WARDEN_SPAWN_EGG -> EntityType.WARDEN;
+//            case WARDEN_SPAWN_EGG -> EntityType.WARDEN;
             case WITCH_SPAWN_EGG -> EntityType.WITCH;
-            case WITHER_SPAWN_EGG -> EntityType.WITHER;
+//            case WITHER_SPAWN_EGG -> EntityType.WITHER;
             case WITHER_SKELETON_SPAWN_EGG -> EntityType.WITHER_SKELETON;
             case WOLF_SPAWN_EGG -> EntityType.WOLF;
             case ZOGLIN_SPAWN_EGG -> EntityType.ZOGLIN;
@@ -1394,7 +1395,7 @@ public final class Materials {
                 if (isWaxedCopper(targetMaterial)) return true;
                 if (Tag.LOGS.isTagged(targetMaterial)) return true;
                 return switch (targetMaterial) {
-                    case OAK_WOOD, DARK_OAK_WOOD, ACACIA_WOOD, BIRCH_WOOD, SPRUCE_WOOD, PUMPKIN, BAMBOO_BLOCK,
+                    case OAK_WOOD, DARK_OAK_WOOD, ACACIA_WOOD, BIRCH_WOOD, SPRUCE_WOOD, PUMPKIN, /*BAMBOO_BLOCK,*/
                             JUNGLE_WOOD, CRIMSON_STEM, WARPED_STEM, CRIMSON_HYPHAE, WARPED_HYPHAE ->
                             true;
                     default -> false;
@@ -1476,6 +1477,7 @@ public final class Materials {
     }
 
     public static boolean isSculkGrowth(Material mat) {
-        return mat == Material.SCULK || mat == Material.SCULK_VEIN;
+//        return mat == Material.SCULK || mat == Material.SCULK_VEIN;
+        return false;
     }
 }

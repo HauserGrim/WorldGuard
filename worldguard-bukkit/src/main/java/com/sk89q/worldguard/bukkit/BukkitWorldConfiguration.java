@@ -182,7 +182,7 @@ public class BukkitWorldConfiguration extends YamlWorldConfiguration {
         spongeRadius = Math.max(1, getInt("simulation.sponge.radius", 3)) - 1;
         redstoneSponges = getBoolean("simulation.sponge.redstone", false);
         if (simulateSponge) {
-            log.warning("Sponge simulation is deprecated for removal in a future version. We recommend using CraftBook's sponge simulation instead.");
+            log.warning("Симуляция губки устарела и будет удалена в будущей версии. Вместо этого мы рекомендуем использовать симуляцию губки CraftBook.");
         } else {
             needParentSave |= removeProperty("simulation");
         }

@@ -236,6 +236,6 @@ public class GeneralCommands {
 
         WorldGuard.getInstance().getPlatform().stackPlayerInventory(player);
 
-        player.print("Все предметы собраны в стеки!");
+        player.print("Предметы собраны в стеки!");
     }
 }

@@ -59,12 +59,12 @@ public class DriverMigration extends AbstractMigration {
     protected void migrate(RegionDatabase store) throws MigrationException {
         Set<ProtectedRegion> regions;
 
-        log.info("Загрузка региона для '" + store.getName() + "' со старым драйвером...");
+        log.info("Загрузка регионов для '" + store.getName() + "' со старым драйвером...");
 
         try {
             regions = store.loadAll(flagRegistry);
         } catch (StorageException e) {
-            throw new MigrationException("Не удалось загрузить данные области для мира '" + store.getName() + "'", e);
+            throw new MigrationException("Не удалось загрузить данные регионов для мира '" + store.getName() + "'", e);
         }
 
         write(store.getName(), regions);

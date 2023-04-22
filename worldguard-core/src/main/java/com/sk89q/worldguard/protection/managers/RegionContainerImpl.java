@@ -243,7 +243,7 @@ public class RegionContainerImpl {
                     RegionManager manager = entry.getValue();
                     try {
                         if (manager.saveChanges()) {
-                            log.info("Данные области изменения, внесенные в '" + name + "' были сохранены фоновые данные");
+                            log.info("Изменение данных региона, сделанные в '" + name + "' были сохранены в фоновом режиме");
                         }
                         failingSaves.remove(manager);
                     } catch (StorageException e) {
@@ -278,14 +278,14 @@ public class RegionContainerImpl {
                             RegionManager manager = createAndLoad(normal.toString());
                             mapping.put(normal, manager);
                             it.remove();
-                            log.info("Данные региона для '" + normal.toString() + "' успешно загруженны");
+                            log.info("Данные региона для '" + normal.toString() + "' успешно загружены");
                         } catch (StorageException e) {
                             if (e.getCause() != null && e.getCause().getMessage().equals(lastMsg)) {
                                 // if it's the same error, don't print a whole stacktrace
-                                log.log(Level.WARNING, "Данные по регионам по-прежнему не загружаются, по крайней мере для всего мира '" + normal.toString() + "'");
+                                log.log(Level.WARNING, "Данные по регионам по-прежнему не загружаются, по крайней мере, для мира '" + normal.toString() + "'");
                                 break;
                             }
-                            log.log(Level.WARNING, "Данные по регионам по-прежнему не загружаются, по крайней мере для всего мира '" + normal.toString() + "'", e);
+                            log.log(Level.WARNING, "Данные по регионам по-прежнему не загружаются, по крайней мере, для мира '" + normal.toString() + "'", e);
                             lastMsg = e.getCause() == null ? e.getMessage() : e.getCause().getMessage();
                             break;
                         }

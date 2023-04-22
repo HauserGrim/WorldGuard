@@ -877,7 +877,7 @@ public final class RegionCommands extends RegionCommandsBase {
                 throw new CommandException("Для мира '" + world.getName() + "' нет менеджера регионов.");
             }
 
-            final String description = String.format("Загрузка области данных для мира '%s'.", world.getName());
+            final String description = String.format("Загрузка данных регионов для мира '%s'.", world.getName());
             AsyncCommandBuilder.wrap(new RegionManagerLoader(manager), sender)
                     .registerWithSupervisor(worldGuard.getSupervisor(), description)
                     .sendMessageAfterDelay("Пожалуйста, подождите... " + description)
@@ -1191,7 +1191,7 @@ public final class RegionCommands extends RegionCommandsBase {
                 // TODO: Add some method to create a safe teleport location.
                 // The method AbstractPlayerActor$findFreePoisition(Location loc) is no good way for this.
                 // It doesn't return the found location and it can't be checked if the location is inside the region.
-                throw new CommandException("Центральная точка телепорта доступна только в режиме наблюдения.");
+                throw new CommandException("Телепортация в центр доступна только в режиме наблюдения.");
             }
         } else {
             teleportLocation = FlagValueCalculator.getEffectiveFlagOf(existing, Flags.TELE_LOC, player);

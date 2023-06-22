@@ -19,6 +19,7 @@
 
 package com.sk89q.worldguard.bukkit.util;
 
+import org.bukkit.entity.Allay;
 import org.bukkit.entity.Ambient;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Arrow;
@@ -43,6 +44,7 @@ import org.bukkit.entity.TNTPrimed;
 import org.bukkit.entity.Tameable;
 import org.bukkit.entity.Vehicle;
 import org.bukkit.entity.minecart.ExplosiveMinecart;
+import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.projectiles.ProjectileSource;
 
@@ -218,6 +220,7 @@ public final class Entities {
         return entity instanceof Hanging
                 || entity instanceof ArmorStand
                 || entity instanceof EnderCrystal
+                || entity instanceof Allay
                 || entity instanceof Minecart && entity instanceof InventoryHolder;
     }
 
@@ -227,5 +230,19 @@ public final class Entities {
 
     public static boolean isAoECloud(EntityType type) {
         return type == EntityType.AREA_EFFECT_CLOUD;
+    }
+
+    /**
+     * Check whether the spawn reason should be considered as a "plugin spawning".
+     * This is true for custom creations or the summon command.
+     *
+     * @param spawnReason the reason
+     * @return true if considerd plugin spawning
+     */
+    public static boolean isPluginSpawning(CreatureSpawnEvent.SpawnReason spawnReason) {
+        return switch (spawnReason) {
+            case CUSTOM, COMMAND -> true;
+            default -> false;
+        };
     }
 }

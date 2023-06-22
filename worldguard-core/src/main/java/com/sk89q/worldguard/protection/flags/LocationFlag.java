@@ -41,7 +41,7 @@ public class LocationFlag extends Flag<Location> {
     }
 
     @Override
-    public Location parseInput(FlagContext context) throws InvalidFlagFormat {
+    public Location parseInput(FlagContext context) throws InvalidFlagFormatException {
         String input = context.getUserInput();
         Player player = context.getPlayerSender();
 
@@ -76,7 +76,7 @@ public class LocationFlag extends Flag<Location> {
                             player.printDebug("ПРЕДУПРЕЖДЕНИЕ: Расположение флага находится вне региона.");
                         } else {
                             // no permission
-                            throw new InvalidFlagFormat("Вы не можете установить этот флаг за пределами границ региона.");
+                            throw new InvalidFlagFormatException("Вы не можете установить этот флаг за пределами границ региона.");
                         }
                     }
                     // clamp height to world limits
@@ -86,7 +86,7 @@ public class LocationFlag extends Flag<Location> {
             }
             return loc;
         }
-        throw new InvalidFlagFormat("Значение может быть только 'here' или x,y,z.");
+        throw new InvalidFlagFormatException("Требуется 'here' or x,y,z.");
     }
 
     @Override

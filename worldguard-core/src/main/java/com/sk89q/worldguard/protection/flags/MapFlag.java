@@ -70,7 +70,7 @@ public class MapFlag<K, V> extends Flag<Map<K, V>> {
     }
 
     @Override
-    public Map<K, V> parseInput(final FlagContext context) throws InvalidFlagFormat {
+    public Map<K, V> parseInput(final FlagContext context) throws InvalidFlagFormatException {
 
         final String input = context.getUserInput();
         if (input.isEmpty()) {
@@ -83,7 +83,7 @@ public class MapFlag<K, V> extends Flag<Map<K, V>> {
             final char split = str.indexOf('=') == -1 ? ':' : '=';
             final String[] keyVal = str.split(String.valueOf(split));
             if (keyVal.length != 2) {
-                throw new InvalidFlagFormat("Входные данные должны быть в формате 'key:value,key1=value1'. Можно использовать ':' или '='.");
+                throw new InvalidFlagFormatException("Вводить нужно в формате 'ключ:значение,ключ1=значение1'. Можно использовать ':' или '='.");
             }
 
             final FlagContext key = context.copyWith(null, keyVal[0], null);

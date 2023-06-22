@@ -84,7 +84,7 @@ public class SimpleFlagRegistry implements FlagRegistry {
         synchronized (lock) {
             String name = flag.getName().toLowerCase();
             if (flags.containsKey(name)) {
-                throw new FlagConflictException("Флаг с именем " + name + "уже существует.");
+                throw new FlagConflictException("Флаг с названием " + name + "уже существует.");
             }
 
             flags.put(name, flag);

@@ -41,7 +41,7 @@ public class UUIDFlag extends Flag<UUID> {
         try {
             return UUID.fromString(input);
         } catch (IllegalArgumentException e) {
-            throw new InvalidFlagFormatException("Not a valid uuid: " + input);
+            throw new InvalidFlagFormatException("Недействительный uuid: " + input);
         }
     }
 

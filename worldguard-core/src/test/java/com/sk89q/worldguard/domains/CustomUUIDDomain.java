@@ -35,7 +35,7 @@ public class CustomUUIDDomain extends CustomDomain {
 
     @Override
     public void parseInput(CustomDomainContext context) throws InvalidDomainFormatException {
-        throw new InvalidDomainFormatException("not supported");
+        throw new InvalidDomainFormatException("не поддерживается");
     }
 
     @Override

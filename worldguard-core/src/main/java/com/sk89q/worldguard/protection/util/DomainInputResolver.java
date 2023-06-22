@@ -136,7 +136,7 @@ public class DomainInputResolver implements Callable<DefaultDomain> {
                 String domainName = customMatcher.group(1);
                 CustomDomain customDomain = WorldGuard.getInstance().getDomainRegistry().createDomain(domainName);
                 if (customDomain == null) {
-                    throw new InvalidDomainFormatException("No domain named '" + domainName + "' found.");
+                    throw new InvalidDomainFormatException("Домен с названием '" + domainName + "' не обнаружен.");
                 }
                 customDomain.parseInput(CustomDomainContext.create()
                     .setSender(actor).setInput(customMatcher.group(2)).setObject("region", region).build());

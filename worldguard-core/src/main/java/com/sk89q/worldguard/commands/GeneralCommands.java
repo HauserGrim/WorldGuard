@@ -71,7 +71,7 @@ public class GeneralCommands {
                     // Keep track of this
                     included = true;
                 } else {
-                    player.print("Режим бога включен для " + sender.getDisplayName() + ".");
+                    player.print("Режим бога включен " + sender.getDisplayName() + ".");
 
                 }
             }

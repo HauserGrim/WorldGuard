@@ -152,11 +152,11 @@ public class DomainInputResolver implements Callable<DefaultDomain> {
                             domain.addPlayer(s);
                             break;
                         case UUID_ONLY:
-                            namesToQuery.add(s.toLowerCase());
+                            namesToQuery.add(s);
                             break;
                         case UUID_AND_NAME:
                             domain.addPlayer(s);
-                            namesToQuery.add(s.toLowerCase());
+                            namesToQuery.add(s);
                     }
                 }
             }
@@ -165,7 +165,7 @@ public class DomainInputResolver implements Callable<DefaultDomain> {
         if (!namesToQuery.isEmpty()) {
             try {
                 for (Profile profile : profileService.findAllByName(namesToQuery)) {
-                    namesToQuery.remove(profile.getName().toLowerCase());
+                    namesToQuery.removeIf(s -> s.equalsIgnoreCase(profile.getName()));
                     domain.addPlayer(profile.getUniqueId());
                 }
             } catch (IOException e) {

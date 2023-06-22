@@ -800,7 +800,8 @@ public final class Materials {
         MATERIAL_FLAGS.put(Material.POINTED_DRIPSTONE, 0);
 
         // 1.19
-/*        MATERIAL_FLAGS.put(Material.MUD, 0);
+        /*
+        MATERIAL_FLAGS.put(Material.MUD, 0);
         MATERIAL_FLAGS.put(Material.MANGROVE_ROOTS, 0);
         MATERIAL_FLAGS.put(Material.MUDDY_MANGROVE_ROOTS, 0);
         MATERIAL_FLAGS.put(Material.PACKED_MUD, 0);
@@ -818,18 +819,36 @@ public final class Materials {
         MATERIAL_FLAGS.put(Material.PEARLESCENT_FROGLIGHT, 0);
         MATERIAL_FLAGS.put(Material.FROGSPAWN, 0);
         MATERIAL_FLAGS.put(Material.ECHO_SHARD, 0);
-        MATERIAL_FLAGS.put(Material.REINFORCED_DEEPSLATE, 0);*/
+        MATERIAL_FLAGS.put(Material.REINFORCED_DEEPSLATE, 0);
+         */
 
-        // 1.19.3: Try to register those things
-/*        try {
+        // 1.20
+        /*
+        try {
             SIGNS_TAG = Tag.ALL_SIGNS;
 
             MATERIAL_FLAGS.put(Material.BAMBOO_MOSAIC, 0);
             MATERIAL_FLAGS.put(Material.BAMBOO_BLOCK, 0);
             MATERIAL_FLAGS.put(Material.STRIPPED_BAMBOO_BLOCK, 0);
+            MATERIAL_FLAGS.put(Material.SUSPICIOUS_SAND, 0);
+            MATERIAL_FLAGS.put(Material.SUSPICIOUS_GRAVEL, 0);
+            MATERIAL_FLAGS.put(Material.PITCHER_PLANT, 0);
+            MATERIAL_FLAGS.put(Material.CHISELED_BOOKSHELF, MODIFIED_ON_RIGHT);
+            MATERIAL_FLAGS.put(Material.DECORATED_POT, MODIFIED_ON_RIGHT);
+            MATERIAL_FLAGS.put(Material.BRUSH, 0);
+            MATERIAL_FLAGS.put(Material.SNIFFER_EGG, 0);
+            MATERIAL_FLAGS.put(Material.CALIBRATED_SCULK_SENSOR, 0);
+            MATERIAL_FLAGS.put(Material.PIGLIN_HEAD, 0);
+            MATERIAL_FLAGS.put(Material.PIGLIN_WALL_HEAD, 0);
+            MATERIAL_FLAGS.put(Material.TORCHFLOWER_SEEDS, 0);
+            MATERIAL_FLAGS.put(Material.TORCHFLOWER_CROP, 0);
+            MATERIAL_FLAGS.put(Material.PITCHER_CROP, 0);
+            MATERIAL_FLAGS.put(Material.PINK_PETALS, 0);
+            MATERIAL_FLAGS.put(Material.PITCHER_POD, 0);
+            MATERIAL_FLAGS.put(Material.NETHERITE_UPGRADE_SMITHING_TEMPLATE, 0);
         } catch (NoSuchFieldError ignored) {
-            SIGNS_TAG = Tag.SIGNS;
-        }*/
+        }
+         */
         SIGNS_TAG = Tag.SIGNS;
 
         // Generated via tag
@@ -869,6 +888,14 @@ public final class Materials {
         putMaterialTag(Tag.CANDLES, MODIFIED_ON_RIGHT);
         putMaterialTag(Tag.CANDLE_CAKES, MODIFIED_ON_RIGHT);
         putMaterialTag(Tag.CAULDRONS, MODIFIED_ON_RIGHT);
+        try {
+            // 1.20
+            /*
+            putMaterialTag(Tag.ITEMS_TRIM_TEMPLATES, 0);
+            putMaterialTag(Tag.ITEMS_DECORATED_POT_SHERDS, 0);
+             */
+        } catch (NoSuchFieldError ignored) {
+        }
 
         Stream.concat(Stream.concat(
                 Tag.CORAL_BLOCKS.getValues().stream(),
@@ -883,7 +910,6 @@ public final class Materials {
 
         // Check for missing items/blocks
         for (Material material : Material.values()) {
-            //noinspection deprecation
             if (material.isLegacy()) continue;
             // Add spawn eggs
             if (isSpawnEgg(material)) {
@@ -1114,6 +1140,7 @@ public final class Materials {
                 || material == Material.BARREL
                 || material == Material.BLAST_FURNACE
                 || material == Material.SMOKER
+//                || material == Material.CHISELED_BOOKSHELF
 //                || Tag.ITEMS_CHEST_BOATS.isTagged(material)
                 || Tag.SHULKER_BOXES.isTagged(material);
     }
@@ -1177,6 +1204,7 @@ public final class Materials {
             case SKELETON_HORSE_SPAWN_EGG -> EntityType.SKELETON_HORSE;
             case SKELETON_SPAWN_EGG -> EntityType.SKELETON;
             case SLIME_SPAWN_EGG -> EntityType.SLIME;
+//            case SNIFFER_SPAWN_EGG -> EntityType.SNIFFER;
 //            case SNOW_GOLEM_SPAWN_EGG -> EntityType.SNOWMAN;
             case SQUID_SPAWN_EGG -> EntityType.SQUID;
             case STRAY_SPAWN_EGG -> EntityType.STRAY;
@@ -1318,6 +1346,7 @@ public final class Materials {
         return type == Material.REPEATER
             || type == Material.COMPARATOR
             || type == Material.CAKE
+            || type == Material.DRAGON_EGG
             || Tag.FLOWER_POTS.isTagged(type)
             || Tag.CANDLES.isTagged(type)
             || Tag.CANDLE_CAKES.isTagged(type);
@@ -1435,7 +1464,14 @@ public final class Materials {
             case INK_SAC:
                 return SIGNS_TAG.isTagged(targetMaterial);
             case HONEYCOMB:
-                return isUnwaxedCopper(targetMaterial);
+                return isUnwaxedCopper(targetMaterial) || SIGNS_TAG.isTagged(targetMaterial);
+            /*
+            case BRUSH:
+                return switch (targetMaterial) {
+                    case SUSPICIOUS_GRAVEL, SUSPICIOUS_SAND -> true;
+                    default -> false;
+                };
+             */
             default:
                 return false;
         }
@@ -1477,7 +1513,6 @@ public final class Materials {
     }
 
     public static boolean isSculkGrowth(Material mat) {
-//        return mat == Material.SCULK || mat == Material.SCULK_VEIN;
-        return false;
+        return false; //mat == Material.SCULK || mat == Material.SCULK_VEIN;
     }
 }

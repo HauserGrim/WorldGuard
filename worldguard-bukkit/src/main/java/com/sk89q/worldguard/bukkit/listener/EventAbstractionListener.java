@@ -455,8 +455,8 @@ public class EventAbstractionListener extends AbstractListener {
             case PHYSICAL:
                 if (event.useInteractedBlock() != Result.DENY) {
                     if (clicked.getType() == Material.FARMLAND ||
-                            clicked.getType() == Material.TURTLE_EGG ||
-                            clicked.getType() == Material.SNIFFER_EGG) {
+                            clicked.getType() == Material.TURTLE_EGG /*||
+                            clicked.getType() == Material.SNIFFER_EGG*/) {
                         BreakBlockEvent breakDelagate = new BreakBlockEvent(event, cause, clicked);
                         breakDelagate.setSilent(true);
                         breakDelagate.getRelevantFlags().add(Flags.TRAMPLE_BLOCKS);

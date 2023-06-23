@@ -820,7 +820,7 @@ public final class Materials {
         MATERIAL_FLAGS.put(Material.FROGSPAWN, 0);
         MATERIAL_FLAGS.put(Material.ECHO_SHARD, 0);
         MATERIAL_FLAGS.put(Material.REINFORCED_DEEPSLATE, 0);
-         */
+        */
 
         // 1.20
         /*
@@ -848,7 +848,7 @@ public final class Materials {
             MATERIAL_FLAGS.put(Material.NETHERITE_UPGRADE_SMITHING_TEMPLATE, 0);
         } catch (NoSuchFieldError ignored) {
         }
-         */
+        */
         SIGNS_TAG = Tag.SIGNS;
 
         // Generated via tag
@@ -893,7 +893,7 @@ public final class Materials {
             /*
             putMaterialTag(Tag.ITEMS_TRIM_TEMPLATES, 0);
             putMaterialTag(Tag.ITEMS_DECORATED_POT_SHERDS, 0);
-             */
+            */
         } catch (NoSuchFieldError ignored) {
         }
 
@@ -1471,7 +1471,7 @@ public final class Materials {
                     case SUSPICIOUS_GRAVEL, SUSPICIOUS_SAND -> true;
                     default -> false;
                 };
-             */
+            */
             default:
                 return false;
         }

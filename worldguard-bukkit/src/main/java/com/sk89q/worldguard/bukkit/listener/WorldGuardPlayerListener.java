@@ -307,10 +307,12 @@ public class WorldGuardPlayerListener extends AbstractListener {
             event.setCancelled(true);
             return;
         }
+        /*
         if (type == Material.SNIFFER_EGG && wcfg.disablePlayerSnifferEggTrampling) {
             event.setCancelled(true);
             return;
         }
+        */
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)

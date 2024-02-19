@@ -35,7 +35,7 @@ public class UnknownDomain extends CustomDomain {
 
     @Override
     public void parseInput(CustomDomainContext context) throws InvalidDomainFormatException {
-        throw new InvalidDomainFormatException("The plugin that registered this domain is not currently installed");
+        throw new InvalidDomainFormatException("Плагин, зарегистрировавший этот домен, в настоящее время не установлен");
     }
 
     @Override

@@ -95,7 +95,7 @@ public class BukkitWorldConfiguration extends YamlWorldConfiguration {
         loadConfiguration();
 
         if (summaryOnStart) {
-            log.info("Loaded configuration for world '" + worldName + "'");
+            log.info("Загружена конфигурация '" + worldName + "'");
         }
     }
 
@@ -119,7 +119,7 @@ public class BukkitWorldConfiguration extends YamlWorldConfiguration {
             try {
                 set.add(matcherParser.fromInput(input));
             } catch (TargetMatcherParseException e) {
-                log.warning("Failed to parse the block / item type specified as '" + input + "'");
+                log.warning("Невозможно разобрать тип блока/предмета, указанного в качестве '" + input + "'");
             }
         }
 
@@ -134,9 +134,9 @@ public class BukkitWorldConfiguration extends YamlWorldConfiguration {
         try {
             config.load();
         } catch (IOException e) {
-            log.log(Level.SEVERE, "Error reading configuration for world " + worldName + ": ", e);
+            log.log(Level.SEVERE, "Ошибка чтения конфигурации для мира " + worldName + ": ", e);
         } catch (YAMLException e) {
-            log.severe("Error parsing configuration for world " + worldName + ". ");
+            log.severe("Ошибка синтаксического анализа конфигурации для мира " + worldName + ". ");
             throw e;
         }
 
@@ -147,7 +147,7 @@ public class BukkitWorldConfiguration extends YamlWorldConfiguration {
 
         buildPermissions = getBoolean("build-permission-nodes.enable", false);
         buildPermissionDenyMessage = CommandUtils.replaceColorMacros(
-                getString("build-permission-nodes.deny-message", "&eSorry, but you are not permitted to do that here."));
+                getString("build-permission-nodes.deny-message", "&7Вам не разрешено делать это здесь."));
 
         strictEntitySpawn = getBoolean("event-handling.block-entity-spawns-with-untraceable-cause", false);
         allowAllInteract = getTargetMatchers("event-handling.interaction-whitelist");
@@ -170,7 +170,7 @@ public class BukkitWorldConfiguration extends YamlWorldConfiguration {
             PotionEffectType effect = PotionEffectType.getByName(potionName);
 
             if (effect == null) {
-                log.warning("Unknown potion effect type '" + potionName + "'");
+                log.warning("Неизвестный тип эффекта зелья '" + potionName + "'");
             } else {
                 blockPotions.add(effect);
             }
@@ -182,7 +182,7 @@ public class BukkitWorldConfiguration extends YamlWorldConfiguration {
         spongeRadius = Math.max(1, getInt("simulation.sponge.radius", 3)) - 1;
         redstoneSponges = getBoolean("simulation.sponge.redstone", false);
         if (simulateSponge) {
-            log.warning("Sponge simulation is deprecated for removal in a future version. We recommend using CraftBook's sponge simulation instead.");
+            log.warning("Симуляция губки устарела и будет удалена в будущей версии. Вместо этого мы рекомендуем использовать симуляцию губки CraftBook.");
         } else {
             needParentSave |= removeProperty("simulation");
         }
@@ -246,7 +246,7 @@ public class BukkitWorldConfiguration extends YamlWorldConfiguration {
         signChestProtection = getBoolean("chest-protection.enable", false);
         disableSignChestProtectionCheck = getBoolean("chest-protection.disable-off-check", true);
         if (signChestProtection) {
-            log.warning("Sign-based chest protection is deprecated for removal in a future version. See https://worldguard.enginehub.org/en/latest/chest-protection/ for details.");
+            log.warning("Защита сундука на основе таблички устарела и будет удаления в будущей версии. Смотрите https://worldguard.enginehub.org/en/latest/chest-protection/ для деталей.");
         } else {
             needParentSave |= removeProperty("chest-protection");
         }
@@ -323,7 +323,7 @@ public class BukkitWorldConfiguration extends YamlWorldConfiguration {
             EntityType creature = EntityTypes.get(creatureName.toLowerCase());
 
             if (creature == null) {
-                log.warning("Unknown entity type '" + creatureName + "'");
+                log.warning("Неизвестный тип сущности '" + creatureName + "'");
             } else {
                 blockCreatureSpawn.add(creature);
             }
@@ -364,7 +364,7 @@ public class BukkitWorldConfiguration extends YamlWorldConfiguration {
             } else {
                 this.blacklist = blist;
                 if (summaryOnStart) {
-                    log.log(Level.INFO, "({0}) Blacklist loaded with {1} entries.",
+                    log.log(Level.INFO, "({0}) Чёрный список загружен с {1} сущностей.",
                             new Object[]{worldName, blacklist.getItemCount()});
                 }
 
@@ -385,34 +385,34 @@ public class BukkitWorldConfiguration extends YamlWorldConfiguration {
                 }
             }
         } catch (FileNotFoundException e) {
-            log.log(Level.WARNING, "WorldGuard blacklist does not exist.");
+            log.log(Level.WARNING, "Чёрный список WorldGuard не существует.");
         } catch (IOException e) {
-            log.log(Level.WARNING, "Could not load WorldGuard blacklist: "
+            log.log(Level.WARNING, "Не удалось загрузить чёрный список WorldGuard: "
                     + e.getMessage());
         }
 
         // Print an overview of settings
         if (summaryOnStart) {
             log.log(Level.INFO, blockTNTExplosions
-                    ? "(" + worldName + ") TNT ignition is blocked."
-                    : "(" + worldName + ") TNT ignition is PERMITTED.");
+                    ? "(" + worldName + ") Поджигание динамита заблокировано."
+                    : "(" + worldName + ") Поджигание динамита РАЗРЕШЕНО.");
             log.log(Level.INFO, blockLighter
-                    ? "(" + worldName + ") Lighters are blocked."
-                    : "(" + worldName + ") Lighters are PERMITTED.");
+                    ? "(" + worldName + ") Огниво заблокировано."
+                    : "(" + worldName + ") Огниво РАЗРЕШЕНО.");
             log.log(Level.INFO, preventLavaFire
-                    ? "(" + worldName + ") Lava fire is blocked."
-                    : "(" + worldName + ") Lava fire is PERMITTED.");
+                    ? "(" + worldName + ") Распространение огня лавы заблокировано."
+                    : "(" + worldName + ") Распространение огня лавы РАЗРЕШЕНО.");
 
             if (disableFireSpread) {
-                log.log(Level.INFO, "(" + worldName + ") All fire spread is disabled.");
+                log.log(Level.INFO, "(" + worldName + ") Все распространения огня отключены.");
             } else {
                 if (!disableFireSpreadBlocks.isEmpty()) {
                     log.log(Level.INFO, "(" + worldName
-                            + ") Fire spread is limited to "
-                            + disableFireSpreadBlocks.size() + " block types.");
+                            + ") Распространения огоня ограничено "
+                            + disableFireSpreadBlocks.size() + " типами блоков.");
                 } else {
                     log.log(Level.INFO, "(" + worldName
-                            + ") Fire spread is UNRESTRICTED.");
+                            + ") Распространение огня НЕОГРАНИЧЕНО.");
                 }
             }
         }

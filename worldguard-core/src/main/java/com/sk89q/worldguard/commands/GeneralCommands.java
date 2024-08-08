@@ -70,7 +70,7 @@ public class GeneralCommands {
 
                     // Keep track of this
                     included = true;
-                } else {
+                } else if (!args.hasFlag('s')) {
                     player.print("Режим бога включен " + sender.getDisplayName() + ".");
 
                 }
@@ -79,7 +79,7 @@ public class GeneralCommands {
         
         // The player didn't receive any items, then we need to send the
         // user a message so s/he know that something is indeed working
-        if (!included && args.hasFlag('s')) {
+        if (!included) {
             sender.print("У игроков теперь есть режим Бога.");
         }
     }
@@ -113,8 +113,8 @@ public class GeneralCommands {
 
                     // Keep track of this
                     included = true;
-                } else {
-                    player.print("Режим Бога отключен для игрока " + sender.getDisplayName() + ".");
+                } else if (!args.hasFlag('s')) {
+                    player.print("Режим бога отключен " + sender.getDisplayName() + ".");
 
                 }
             }
@@ -122,8 +122,8 @@ public class GeneralCommands {
         
         // The player didn't receive any items, then we need to send the
         // user a message so s/he know that something is indeed working
-        if (!included && args.hasFlag('s')) {
-            sender.print("У игроков больше нет режима Бога.");
+        if (!included) {
+            sender.print("У игроков больше нет режима бога.");
         }
     }
     
@@ -158,7 +158,7 @@ public class GeneralCommands {
                 
                 // Keep track of this
                 included = true;
-            } else {
+            } else if (!args.hasFlag('s')) {
                 player.print("Вы исцелены " + sender.getDisplayName() + ".");
                 
             }
@@ -166,7 +166,7 @@ public class GeneralCommands {
         
         // The player didn't receive any items, then we need to send the
         // user a message so s/he know that something is indeed working
-        if (!included && args.hasFlag('s')) {
+        if (!included) {
             sender.print("Игроки исцелены.");
         }
     }
@@ -199,7 +199,7 @@ public class GeneralCommands {
                 
                 // Keep track of this
                 included = true;
-            } else {
+            } else if (!args.hasFlag('s')) {
                 player.print("Вы убиты " + sender.getDisplayName() + ".");
                 
             }
@@ -207,7 +207,7 @@ public class GeneralCommands {
         
         // The player didn't receive any items, then we need to send the
         // user a message so s/he know that something is indeed working
-        if (!included && args.hasFlag('s')) {
+        if (!included) {
             sender.print("Игроки убиты.");
         }
     }

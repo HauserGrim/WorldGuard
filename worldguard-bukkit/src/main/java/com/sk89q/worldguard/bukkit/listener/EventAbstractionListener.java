@@ -25,7 +25,6 @@ import com.destroystokyo.paper.event.entity.EntityZapEvent;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 import com.sk89q.worldguard.bukkit.cause.Cause;
 import com.sk89q.worldguard.bukkit.event.DelegateEvent;
-import com.sk89q.worldguard.bukkit.event.block.AbstractBlockEvent;
 import com.sk89q.worldguard.bukkit.event.block.BreakBlockEvent;
 import com.sk89q.worldguard.bukkit.event.block.PlaceBlockEvent;
 import com.sk89q.worldguard.bukkit.event.block.UseBlockEvent;
@@ -51,7 +50,6 @@ import io.papermc.lib.PaperLib;
 import io.papermc.paper.event.player.PlayerOpenSignEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.Effect;
-import org.bukkit.ExplosionResult;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -67,8 +65,8 @@ import org.bukkit.block.PistonMoveReaction;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.block.data.Waterlogged;
 import org.bukkit.block.data.type.Dispenser;
+import org.bukkit.entity.AbstractWindCharge;
 import org.bukkit.entity.AreaEffectCloud;
-import org.bukkit.entity.BreezeWindCharge;
 import org.bukkit.entity.Creeper;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
@@ -82,7 +80,6 @@ import org.bukkit.entity.Painting;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Tameable;
 import org.bukkit.entity.ThrownPotion;
-import org.bukkit.entity.WindCharge;
 import org.bukkit.entity.minecart.HopperMinecart;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
@@ -118,7 +115,6 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.entity.EntityInteractEvent;
-import org.bukkit.event.entity.EntityKnockbackByEntityEvent;
 import org.bukkit.event.entity.EntityPickupItemEvent;
 import org.bukkit.event.entity.EntityTameEvent;
 import org.bukkit.event.entity.EntityUnleashEvent;
@@ -328,10 +324,10 @@ public class EventAbstractionListener extends AbstractListener {
 
         // Fire two events: one as BREAK and one as PLACE
         if (toType != Material.AIR && fromType != Material.AIR) {
-            BreakBlockEvent breakDelegate = new BreakBlockEvent(event, cause, block);
-            setDelegateEventMaterialOptions(breakDelegate, fromType, toType);
+            BreakBlockEvent breakDelagate = new BreakBlockEvent(event, cause, block);
+            setDelegateEventMaterialOptions(breakDelagate, fromType, toType);
             boolean denied;
-            if (!(denied = Events.fireToCancel(event, breakDelegate))) {
+            if (!(denied = Events.fireToCancel(event, breakDelagate))) {
                 PlaceBlockEvent placeDelegate = new PlaceBlockEvent(event, cause, block.getLocation(), toType);
                 setDelegateEventMaterialOptions(placeDelegate, fromType, toType);
                 denied = Events.fireToCancel(event, placeDelegate);
@@ -360,36 +356,16 @@ public class EventAbstractionListener extends AbstractListener {
     }
 
     @EventHandler(ignoreCancelled = true)
-    public void onEntityKnockbackByEntity(EntityKnockbackByEntityEvent event) {
-        Entity damager = event.getSourceEntity();
-
-        final DamageEntityEvent eventToFire = new DamageEntityEvent(event, create(damager), event.getEntity());
-        if (damager instanceof BreezeWindCharge) {
-            eventToFire.getRelevantFlags().add(Flags.BREEZE_WIND_CHARGE);
-        } else if (damager instanceof WindCharge) {
-            eventToFire.getRelevantFlags().add(Flags.WIND_CHARGE_BURST);
-        }
-        Events.fireToCancel(event, eventToFire);
-    }
-
-    @EventHandler(ignoreCancelled = true)
     public void onEntityExplode(EntityExplodeEvent event) {
         Entity entity = event.getEntity();
-        AbstractBlockEvent wgEvent;
-
-        if (event.getExplosionResult() == ExplosionResult.TRIGGER_BLOCK) {
-            wgEvent = new UseBlockEvent(event, create(entity), event.getLocation().getWorld(), event.blockList(), Material.AIR);
-        } else if (event.getExplosionResult() == ExplosionResult.DESTROY || event.getExplosionResult() == ExplosionResult.DESTROY_WITH_DECAY) {
-            wgEvent = new BreakBlockEvent(event, create(entity), event.getLocation().getWorld(), event.blockList(), Material.AIR);
-        } else {
+        if (entity instanceof AbstractWindCharge) {
+            UseBlockEvent useEvent = new UseBlockEvent(event, create(entity), event.getLocation().getWorld(), event.blockList(), Material.AIR);
+            useEvent.getRelevantFlags().add(Flags.WIND_CHARGE_BURST);
+            useEvent.setSilent(true);
+            Events.fireBulkEventToCancel(event, useEvent);
             return;
         }
-
-        wgEvent.getRelevantFlags().add(Entities.getExplosionFlag(event.getEntity()));
-
-        wgEvent.setSilent(true);
-        Events.fireBulkEventToCancel(event, wgEvent);
-
+        Events.fireBulkEventToCancel(event, new BreakBlockEvent(event, create(entity), event.getLocation().getWorld(), event.blockList(), Material.AIR));
         if (entity instanceof Creeper) {
             Cause.untrackParentCause(entity);
         }
@@ -608,7 +584,7 @@ public class EventAbstractionListener extends AbstractListener {
 
     @EventHandler(ignoreCancelled = true)
     public void onBlockFertilize(BlockFertilizeEvent event) {
-        if (event.getBlocks().isEmpty()) return;
+        if (event.getBlocks().isEmpty()) return; 
         Cause cause = create(event.getPlayer(), event.getBlock());
         Events.fireToCancel(event, new PlaceBlockEvent(event, cause, event.getBlock().getWorld(), event.getBlocks()));
     }
@@ -774,7 +750,7 @@ public class EventAbstractionListener extends AbstractListener {
             if (event.isCancelled() && remover instanceof Player) {
                 playDenyEffect((Player) remover, event.getEntity().getLocation());
             }
-        } else if (event.getCause() == HangingBreakEvent.RemoveCause.EXPLOSION) {
+        } else if (event.getCause() == HangingBreakEvent.RemoveCause.EXPLOSION){
             DestroyEntityEvent destroyEntityEvent = new DestroyEntityEvent(event, Cause.unknown(), event.getEntity());
             destroyEntityEvent.getRelevantFlags().add(Flags.OTHER_EXPLOSION);
             if (event.getEntity() instanceof ItemFrame) {
@@ -1039,6 +1015,7 @@ public class EventAbstractionListener extends AbstractListener {
 
         // Fire item interaction event
         Events.fireToCancel(event, new UseItemEvent(event, cause, world, potion.getItem()));
+
         // Fire entity interaction event
         if (!event.isCancelled()) {
             int blocked = 0;
@@ -1050,11 +1027,8 @@ public class EventAbstractionListener extends AbstractListener {
                         ? new DamageEntityEvent(event, cause, affected) :
                         new UseEntityEvent(event, cause, affected);
 
-                // Consider extra relevant flags
+                // Consider the potion splash flag
                 delegate.getRelevantFlags().add(Flags.POTION_SPLASH);
-                if (potion.getShooter() instanceof LivingEntity shooter && !(shooter instanceof Player) && affected instanceof Player) {
-                    delegate.getRelevantFlags().add(Flags.MOB_DAMAGE);
-                }
 
                 if (Events.fireAndTestCancel(delegate)) {
                     event.setIntensity(affected, 0);
@@ -1136,7 +1110,7 @@ public class EventAbstractionListener extends AbstractListener {
     }
 
     @EventHandler(ignoreCancelled = true)
-    public void onPlayerInteractAtEntity(PlayerInteractAtEntityEvent event) {
+    public void onPlayerInteractAtEntity(PlayerInteractAtEntityEvent event){
         onPlayerInteractEntity(event);
     }
 

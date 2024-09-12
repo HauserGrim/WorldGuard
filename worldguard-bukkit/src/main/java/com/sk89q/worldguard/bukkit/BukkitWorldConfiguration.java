@@ -215,7 +215,6 @@ public class BukkitWorldConfiguration extends YamlWorldConfiguration {
         blockEnderDragonPortalCreation = getBoolean("mobs.block-enderdragon-portal-creation", false);
         blockFireballExplosions = getBoolean("mobs.block-fireball-explosions", false);
         blockFireballBlockDamage = getBoolean("mobs.block-fireball-block-damage", false);
-        blockWindChargeExplosions = getBoolean("mobs.block-windcharge-explosions", false);
         antiWolfDumbness = getBoolean("mobs.anti-wolf-dumbness", false);
         allowTamedSpawns = getBoolean("mobs.allow-tamed-spawns", true);
         disableEndermanGriefing = getBoolean("mobs.disable-enderman-griefing", false);
@@ -283,7 +282,6 @@ public class BukkitWorldConfiguration extends YamlWorldConfiguration {
         disableSculkGrowth = getBoolean("dynamics.disable-sculk-growth", false);
         disableCropGrowth = getBoolean("dynamics.disable-crop-growth", false);
         disableSoilDehydration = getBoolean("dynamics.disable-soil-dehydration", false);
-        disableSoilMoistureChange = getBoolean("dynamics.disable-soil-moisture-change", false);
         disableCoralBlockFade = getBoolean("dynamics.disable-coral-block-fade", false);
         disableCopperBlockFade = getBoolean("dynamics.disable-copper-block-fade", false);
         allowedSnowFallOver = new HashSet<>(convertLegacyBlocks(getStringList("dynamics.snow-fall-blocks", null)));

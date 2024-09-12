@@ -586,8 +586,8 @@ public class WorldGuardEntityListener extends AbstractListener {
                 event.setCancelled(true);
                 return;
             }
-        } else if (event.getEntityType() == EntityType.TNT
-                || event.getEntityType() == EntityType.TNT_MINECART) {
+        } else if (event.getEntityType() == EntityType.PRIMED_TNT
+                || event.getEntityType() == EntityType.MINECART_TNT) {
             if (wcfg.blockTNTExplosions) {
                 event.setCancelled(true);
                 return;

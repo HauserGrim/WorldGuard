@@ -95,9 +95,7 @@ public interface SessionManager {
      *
      * @param player The player
      * @return The new session
-     * @deprecated Use {@link SessionManager#get} instead
      */
-    @Deprecated
     Session createSession(LocalPlayer player);
 
     /**

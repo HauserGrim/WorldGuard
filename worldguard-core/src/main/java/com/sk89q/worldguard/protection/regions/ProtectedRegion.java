@@ -92,17 +92,17 @@ public abstract class ProtectedRegion implements ChangeTracked, Comparable<Prote
      * @param points the points to set with at least one entry
      */
     protected void setMinMaxPoints(List<BlockVector3> points) {
-        int minX = points.get(0).x();
-        int minY = points.get(0).y();
-        int minZ = points.get(0).z();
+        int minX = points.get(0).getBlockX();
+        int minY = points.get(0).getBlockY();
+        int minZ = points.get(0).getBlockZ();
         int maxX = minX;
         int maxY = minY;
         int maxZ = minZ;
 
         for (BlockVector3 v : points) {
-            int x = v.x();
-            int y = v.y();
-            int z = v.z();
+            int x = v.getBlockX();
+            int y = v.getBlockY();
+            int z = v.getBlockZ();
 
             if (x < minX) minX = x;
             if (y < minY) minY = y;
@@ -514,7 +514,7 @@ public abstract class ProtectedRegion implements ChangeTracked, Comparable<Prote
      */
     public boolean contains(BlockVector2 position) {
         checkNotNull(position);
-        return contains(BlockVector3.at(position.x(), min.y(), position.z()));
+        return contains(BlockVector3.at(position.getBlockX(), min.getBlockY(), position.getBlockZ()));
     }
 
     /**
@@ -607,16 +607,16 @@ public abstract class ProtectedRegion implements ChangeTracked, Comparable<Prote
         BlockVector3 rMaxPoint = region.getMaximumPoint();
         BlockVector3 min = getMinimumPoint();
 
-        if (rMaxPoint.x() < min.x()) return false;
-        if (rMaxPoint.y() < min.y()) return false;
-        if (rMaxPoint.z() < min.z()) return false;
+        if (rMaxPoint.getBlockX() < min.getBlockX()) return false;
+        if (rMaxPoint.getBlockY() < min.getBlockY()) return false;
+        if (rMaxPoint.getBlockZ() < min.getBlockZ()) return false;
 
         BlockVector3 rMinPoint = region.getMinimumPoint();
         BlockVector3 max = getMaximumPoint();
 
-        if (rMinPoint.x() > max.x()) return false;
-        if (rMinPoint.y() > max.y()) return false;
-        if (rMinPoint.z() > max.z()) return false;
+        if (rMinPoint.getBlockX() > max.getBlockX()) return false;
+        if (rMinPoint.getBlockY() > max.getBlockY()) return false;
+        if (rMinPoint.getBlockZ() > max.getBlockZ()) return false;
 
         return true;
     }
@@ -636,16 +636,16 @@ public abstract class ProtectedRegion implements ChangeTracked, Comparable<Prote
             for (BlockVector2 aPts2 : pts2) {
 
                 Line2D line1 = new Line2D.Double(
-                        lastPt1.x(),
-                        lastPt1.z(),
-                        aPts1.x(),
-                        aPts1.z());
+                        lastPt1.getBlockX(),
+                        lastPt1.getBlockZ(),
+                        aPts1.getBlockX(),
+                        aPts1.getBlockZ());
 
                 if (line1.intersectsLine(
-                        lastPt2.x(),
-                        lastPt2.z(),
-                        aPts2.x(),
-                        aPts2.z())) {
+                        lastPt2.getBlockX(),
+                        lastPt2.getBlockZ(),
+                        aPts2.getBlockX(),
+                        aPts2.getBlockZ())) {
                     return true;
                 }
                 lastPt2 = aPts2;

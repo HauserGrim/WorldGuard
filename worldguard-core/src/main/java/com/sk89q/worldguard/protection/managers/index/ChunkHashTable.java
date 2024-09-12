@@ -93,10 +93,10 @@ public class ChunkHashTable implements ConcurrentRegionIndex {
     private ChunkState get(BlockVector2 position, boolean create) {
         ChunkState state;
         synchronized (lock) {
-            state = states.get(position.x(), position.z());
+            state = states.get(position.getBlockX(), position.getBlockZ());
             if (state == null && create) {
                 state = new ChunkState(position);
-                states.put(position.x(), position.z(), state);
+                states.put(position.getBlockX(), position.getBlockZ(), state);
                 executor.submit(new EnumerateRegions(position));
             }
         }
@@ -130,7 +130,7 @@ public class ChunkHashTable implements ConcurrentRegionIndex {
             for (ChunkState state : previousStates.values()) {
                 BlockVector2 position = state.getPosition();
                 positions.add(position);
-                states.put(position.x(), position.z(), new ChunkState(position));
+                states.put(position.getBlockX(), position.getBlockZ(), new ChunkState(position));
             }
 
             if (!positions.isEmpty()) {
@@ -179,9 +179,9 @@ public class ChunkHashTable implements ConcurrentRegionIndex {
     public void forget(BlockVector2 chunkPosition) {
         checkNotNull(chunkPosition);
         synchronized (lock) {
-            states.remove(chunkPosition.x(), chunkPosition.z());
+            states.remove(chunkPosition.getBlockX(), chunkPosition.getBlockZ());
             ChunkState state = lastState;
-            if (state != null && state.getPosition().x() == chunkPosition.x() && state.getPosition().z() == chunkPosition.z()) {
+            if (state != null && state.getPosition().getBlockX() == chunkPosition.getBlockX() && state.getPosition().getBlockZ() == chunkPosition.getBlockZ()) {
                 lastState = null;
             }
         }
@@ -238,10 +238,10 @@ public class ChunkHashTable implements ConcurrentRegionIndex {
         checkNotNull(consumer);
 
         ChunkState state = lastState;
-        int chunkX = position.x() >> 4;
-        int chunkZ = position.z() >> 4;
+        int chunkX = position.getBlockX() >> 4;
+        int chunkZ = position.getBlockZ() >> 4;
 
-        if (state == null || state.getPosition().x() != chunkX || state.getPosition().z() != chunkZ) {
+        if (state == null || state.getPosition().getBlockX() != chunkX || state.getPosition().getBlockZ() != chunkZ) {
             state = get(BlockVector2.at(chunkX, chunkZ), false);
         }
 

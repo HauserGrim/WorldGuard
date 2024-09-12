@@ -35,6 +35,6 @@ fun Project.applyRootArtifactoryConfig() {
 
 fun Project.applyCommonArtifactoryConfig() {
     tasks.named<ArtifactoryTask>("artifactoryPublish") {
-        publications("maven")
+        isSkip = true
     }
 }

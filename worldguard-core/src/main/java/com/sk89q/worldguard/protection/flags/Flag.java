@@ -56,7 +56,7 @@ public abstract class Flag<T> {
      */
     protected Flag(String name, @Nullable RegionGroup defaultGroup) {
         if (name != null && !isValidName(name)) {
-            throw new IllegalArgumentException("Invalid flag name used");
+            throw new IllegalArgumentException("Используется недопустимое имя флага");
         }
         this.name = name;
         this.regionGroup = defaultGroup != null ? new RegionGroupFlag(name + "-group", defaultGroup) : null;
@@ -181,9 +181,9 @@ public abstract class Flag<T> {
      *
      * @param context the {@link FlagContext}
      * @return The coerced type
-     * @throws InvalidFlagFormat Raised if the input is invalid
+     * @throws InvalidFlagFormatException Raised if the input is invalid
      */
-    public abstract T parseInput(FlagContext context) throws InvalidFlagFormat;
+    public abstract T parseInput(FlagContext context) throws InvalidFlagFormatException;
 
     /**
      * Convert a raw type that was loaded (from a YAML file, for example)
@@ -206,7 +206,7 @@ public abstract class Flag<T> {
     @Override
     public String toString() {
         return getClass().getSimpleName() + "{" +
-                "name='" + name + '\'' +
+                "имя='" + name + '\'' +
                 '}';
     }
 

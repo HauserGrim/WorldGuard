@@ -48,7 +48,7 @@ public class KickAction implements Action {
             if (message != null) {
                 event.getPlayer().kick(String.format(message, friendlyName));
             } else {
-                event.getPlayer().kick("You can't " + event.getDescription() + " " + friendlyName);
+                event.getPlayer().kick("Вы не можете " + event.getDescription() + " " + friendlyName);
             }
         }
 

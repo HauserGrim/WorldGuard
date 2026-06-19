@@ -177,7 +177,7 @@ abstract class TableCache<V> {
                         if (generatedKeys.next()) {
                             cache.put(toKey(entry), generatedKeys.getInt(1));
                         } else {
-                            log.warning("Could not get the database ID for entry " + entry);
+                            log.warning("Не удалось получить идентификатор базы данных для записи " + entry);
                         }
                     }
                 } finally {

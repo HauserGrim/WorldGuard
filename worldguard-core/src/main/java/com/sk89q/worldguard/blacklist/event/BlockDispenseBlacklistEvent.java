@@ -41,12 +41,12 @@ public final class BlockDispenseBlacklistEvent extends BlockBlacklistEvent {
 
     @Override
     public String getDescription() {
-        return "dispense";
+        return "выдать";
     }
 
     @Override
     public String getLoggerMessage() {
-        return getPosition() + " tried to " + getDescription() + " " + PlainComponentSerializer.INSTANCE.serialize(getTarget().getFriendlyNameComponent());
+        return getPosition() + " попытался " + getDescription() + " " + PlainComponentSerializer.INSTANCE.serialize(getTarget().getFriendlyNameComponent());
     }
 
     @Override

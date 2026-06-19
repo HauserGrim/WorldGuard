@@ -46,9 +46,9 @@ public class BanAction implements Action {
             String friendlyName = PlainComponentSerializer.INSTANCE.serialize(event.getTarget().getFriendlyNameComponent());
 
             if (message != null) {
-                event.getPlayer().ban("Banned: " + String.format(message, friendlyName));
+                event.getPlayer().ban("Забанен: " + String.format(message, friendlyName));
             } else {
-                event.getPlayer().ban("Banned: You can't " + event.getDescription() + " " + friendlyName);
+                event.getPlayer().ban("Забанен: Вы не можете " + event.getDescription() + " " + friendlyName);
             }
         }
 

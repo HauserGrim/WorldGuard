@@ -24,6 +24,8 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.common.util.concurrent.MoreExecutors;
 import com.sk89q.minecraft.util.commands.CommandException;
+import com.sk89q.worldguard.domains.registry.DomainRegistry;
+import com.sk89q.worldguard.domains.registry.SimpleDomainRegistry;
 import com.sk89q.worldguard.util.profile.cache.HashMapCache;
 import com.sk89q.worldguard.util.profile.cache.ProfileCache;
 import com.sk89q.worldguard.util.profile.cache.SQLiteCache;
@@ -55,6 +57,7 @@ public final class WorldGuard {
 
     private WorldGuardPlatform platform;
     private final SimpleFlagRegistry flagRegistry = new SimpleFlagRegistry();
+    private final SimpleDomainRegistry domainRegistry = new SimpleDomainRegistry();
     private final Supervisor supervisor = new SimpleSupervisor();
     private ProfileCache profileCache;
     private ProfileService profileService;
@@ -74,7 +77,7 @@ public final class WorldGuard {
 
     public void setup() {
         executorService = MoreExecutors.listeningDecorator(EvenMoreExecutors.newBoundedCachedThreadPool(0, 1, 20,
-                "WorldGuard Task Executor - %s"));
+                "Исполнитель задач WorldGuard - %s"));
 
         File cacheDir = new File(getPlatform().getConfigDir().toFile(), "cache");
         cacheDir.mkdirs();
@@ -82,7 +85,7 @@ public final class WorldGuard {
         try {
             profileCache = new SQLiteCache(new File(cacheDir, "profiles.sqlite"));
         } catch (IOException | UnsatisfiedLinkError ignored) {
-            logger.log(Level.WARNING, "Failed to initialize SQLite profile cache. Cache is memory-only.");
+            logger.log(Level.WARNING, "Не удалось инициализировать кэш профиля SQLite. Кэш только для памяти.");
             profileCache = new HashMapCache();
         }
 
@@ -98,7 +101,7 @@ public final class WorldGuard {
      * @return The platform
      */
     public WorldGuardPlatform getPlatform() {
-        checkNotNull(platform, "WorldGuard is not enabled, unable to access the platform.");
+        checkNotNull(platform, "WorldGuard не включен, невозможно получить доступ к платформе.");
         return platform;
     }
 
@@ -114,6 +117,16 @@ public final class WorldGuard {
      */
     public FlagRegistry getFlagRegistry() {
         return this.flagRegistry;
+    }
+
+
+    /**
+     * Get the domain registry.
+     *
+     * @return the domain registry
+     */
+    public DomainRegistry getDomainRegistry() {
+        return this.domainRegistry;
     }
 
     /**
@@ -173,7 +186,7 @@ public final class WorldGuard {
         if (sender instanceof LocalPlayer) {
             return (LocalPlayer) sender;
         } else {
-            throw new CommandException("A player is expected.");
+            throw new CommandException("Ожидается игрок.");
         }
     }
 
@@ -184,11 +197,11 @@ public final class WorldGuard {
         executorService.shutdown();
 
         try {
-            logger.log(Level.INFO, "Shutting down executor and cancelling any pending tasks...");
+            logger.log(Level.INFO, "Завершение работы исполнителя и отмена всех отложенных задач...");
 
             List<Task<?>> tasks = supervisor.getTasks();
             if (!tasks.isEmpty()) {
-                StringBuilder builder = new StringBuilder("Known tasks:");
+                StringBuilder builder = new StringBuilder("Известные задачи:");
                 for (Task<?> task : tasks) {
                     builder.append("\n");
                     builder.append(task.getName());
@@ -223,12 +236,12 @@ public final class WorldGuard {
         }
 
         if (p == null) {
-            version = "(unknown)";
+            version = "(неизвестно)";
         } else {
             version = p.getImplementationVersion();
 
             if (version == null) {
-                version = "(unknown)";
+                version = "(неизвестно)";
             }
         }
 

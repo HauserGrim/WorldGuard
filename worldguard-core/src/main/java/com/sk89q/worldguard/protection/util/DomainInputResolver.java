@@ -21,6 +21,12 @@ package com.sk89q.worldguard.protection.util;
 
 import com.google.common.base.Function;
 import com.google.common.base.Joiner;
+import com.sk89q.worldedit.extension.platform.Actor;
+import com.sk89q.worldguard.WorldGuard;
+import com.sk89q.worldguard.domains.CustomDomain;
+import com.sk89q.worldguard.domains.registry.CustomDomainContext;
+import com.sk89q.worldguard.domains.registry.InvalidDomainFormatException;
+import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import com.sk89q.worldguard.util.profile.Profile;
 import com.sk89q.worldguard.util.profile.resolver.ProfileService;
 import com.sk89q.worldguard.util.profile.util.UUIDs;
@@ -43,6 +49,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 public class DomainInputResolver implements Callable<DefaultDomain> {
 
     private static final Pattern GROUP_PATTERN = Pattern.compile("(?i)^[G]:(.+)$");
+    private static final Pattern CUSTOM_PATTERN = Pattern.compile("(?i)^([A-Za-z0-9\\-]{1,40}):(.*)$");
 
     /**
      * The policy for locating users.
@@ -56,6 +63,8 @@ public class DomainInputResolver implements Callable<DefaultDomain> {
     private final ProfileService profileService;
     private final String[] input;
     private UserLocatorPolicy locatorPolicy = UserLocatorPolicy.UUID_ONLY;
+    private ProtectedRegion region;
+    private Actor actor;
 
     /**
      * Create a new instance.
@@ -89,31 +98,65 @@ public class DomainInputResolver implements Callable<DefaultDomain> {
         this.locatorPolicy = locatorPolicy;
     }
 
+    /**
+     * Set the region for the Resolver
+     * @param region the region
+     */
+    public void setRegion(ProtectedRegion region) {
+        this.region = region;
+    }
+
+    /**
+     * Get the current region from the Resolver
+     * @return the region
+     */
+    public @Nullable ProtectedRegion getRegion() {
+        return region;
+    }
+
+    /**
+     * Set the actor of the Resolver
+     * @param actor the actor
+     */
+    public void setActor(Actor actor) {
+        this.actor = actor;
+    }
+
     @Override
-    public DefaultDomain call() throws UnresolvedNamesException {
+    public DefaultDomain call() throws UnresolvedNamesException, InvalidDomainFormatException {
         DefaultDomain domain = new DefaultDomain();
         List<String> namesToQuery = new ArrayList<>();
 
         for (String s : input) {
-            Matcher m = GROUP_PATTERN.matcher(s);
-            if (m.matches()) {
-                domain.addGroup(m.group(1));
+            Matcher groupMatcher = GROUP_PATTERN.matcher(s);
+            Matcher customMatcher = CUSTOM_PATTERN.matcher(s);
+            if (groupMatcher.matches()) {
+                domain.addGroup(groupMatcher.group(1));
+            } else if (customMatcher.matches()) {
+                String domainName = customMatcher.group(1);
+                CustomDomain customDomain = WorldGuard.getInstance().getDomainRegistry().createDomain(domainName);
+                if (customDomain == null) {
+                    throw new InvalidDomainFormatException("Домен с названием '" + domainName + "' не обнаружен.");
+                }
+                customDomain.parseInput(CustomDomainContext.create()
+                    .setSender(actor).setInput(customMatcher.group(2)).setObject("region", region).build());
+                domain.addCustomDomain(customDomain);
             } else {
                 UUID uuid = parseUUID(s);
                 if (uuid != null) {
                     // Try to add any UUIDs given
-                    domain.addPlayer(UUID.fromString(UUIDs.addDashes(s.replaceAll("^uuid:", ""))));
+                    domain.addPlayer(uuid);
                 } else {
                     switch (locatorPolicy) {
                         case NAME_ONLY:
                             domain.addPlayer(s);
                             break;
                         case UUID_ONLY:
-                            namesToQuery.add(s.toLowerCase());
+                            namesToQuery.add(s);
                             break;
                         case UUID_AND_NAME:
                             domain.addPlayer(s);
-                            namesToQuery.add(s.toLowerCase());
+                            namesToQuery.add(s);
                     }
                 }
             }
@@ -122,18 +165,18 @@ public class DomainInputResolver implements Callable<DefaultDomain> {
         if (!namesToQuery.isEmpty()) {
             try {
                 for (Profile profile : profileService.findAllByName(namesToQuery)) {
-                    namesToQuery.remove(profile.getName().toLowerCase());
+                    namesToQuery.removeIf(s -> s.equalsIgnoreCase(profile.getName()));
                     domain.addPlayer(profile.getUniqueId());
                 }
             } catch (IOException e) {
-                throw new UnresolvedNamesException("The UUID lookup service failed so the names entered could not be turned into UUIDs");
+                throw new UnresolvedNamesException("Ошибка службы поиска UUID, поэтому введенные имена не могут быть превращены в UUID");
             } catch (InterruptedException e) {
-                throw new UnresolvedNamesException("UUID lookup was interrupted");
+                throw new UnresolvedNamesException("Поиск UUID был прерван");
             }
         }
 
         if (!namesToQuery.isEmpty()) {
-            throw new UnresolvedNamesException("Unable to resolve the names " + Joiner.on(", ").join(namesToQuery));
+            throw new UnresolvedNamesException("Невозможно разрешить имена " + Joiner.on(", ").join(namesToQuery));
         }
 
         return domain;
